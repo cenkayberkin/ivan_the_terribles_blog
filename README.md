@@ -1,3 +1,27 @@
+#Fixed problems with the blog.
+
+- XSS problem: user input was embedded in the page without escaping so it was potential problem, user might inject many things to url and would appear on our page. So this is how i fixed it
+
+```sh
+<%= params[:status] == "published"? "published" : "unpublished" %> 
+```
+- SQL injection:
+This line  
+```sh
+where("title like '%#{search}%'")
+```
+changed to 
+```sh
+where("title like ?", "%#{search}%")
+```
+So we shouldnt inject user input into db query directlly. User can do many things to our db.
+
+- Updated to latest version of 3.2
+- respnse header prevention method changed to 1 
+```sh
+response.headers['X-XSS-Protection'] = '1'
+```
+
 # My New Blog!
 
 I've got a lot to say, and now I have a place to say it!!!!!
